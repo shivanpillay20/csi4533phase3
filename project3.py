@@ -108,19 +108,43 @@ def process_and_box(image_path, min_width=10, min_height=50, max_width=185, max_
 
 folder_path = './images/images/cam0'
 image_sequence = load_images_from_folder(folder_path)
-image1FirstFull = [1, 1, 67, 252]
-image1FirstUpper = [1, 1, 67, 252//2]
 
+image1FirstFull = [1, 1, 41, 178]
+image1FirstUpper = [1, 1, 41, 178//2]
 
+image2SecondFull=[1,1,75,250]
+image2SecondUpper=[1,1,75,250//2]
 
-image1 = cv2.imread('image.png')
+image3ThirdFull=[1,1,58,202]
+image3ThirdUpper=[1,1,58,202//2]
 
+image4FourthFull=[1,1,74,275]
+image4FourthUpper=[1,1,74,275//2]
 
+image5FifthFull=[1, 1, 67, 252]
+image5FifthUpper=[1, 1, 67, 252//2]
 
-#shistogram_coordinates = generate_histogram_coordinates_from_masks('examples/output_cam0')
+image1 = cv2.imread('person_1.png')
+image2 = cv2.imread('person_2.png')
+image3 = cv2.imread('person_3.png')
+image4 = cv2.imread('person_4.png')
+image5 = cv2.imread('person_5.png')
+
 
 histogram_names_first_image = [
     [(image1FirstFull,image1), (image1FirstUpper,image1)]
+]
+histogram_names_second_image = [
+    [(image2SecondFull,image2), (image2SecondUpper,image2)]
+]
+histogram_names_third_image = [
+    [(image3ThirdFull,image3), (image3ThirdUpper,image3)]
+]
+histogram_names_fouth_image = [
+    [(image4FourthFull,image4), (image4FourthUpper,image4)]
+]
+histogram_names_fifth_image = [
+    [(image5FifthFull,image5), (image5FifthUpper,image5)]
 ]
 histogram_coordinates = []
 
@@ -145,11 +169,8 @@ def compare(histogram_names):
         # Compare histograms and find the maximum intersection for each person
         for i, (filename, coordinates) in enumerate(histogram_coordinates):
            
-            
-            
-            
-
             image_cam= cv2.imread('./examples/output_cam0/'+filename+'.png')
+
          
 
             try:
@@ -199,7 +220,6 @@ def show_images_one_by_one(top_people, folder_path):
 
 # Run comparison
 
-# img=histogram(image1FirstFull,image1)
-# img=histogram(image1FirstUpper,image1)
-top_100_people = compare(histogram_names_first_image)
+
+top_100_people = compare(histogram_names_fouth_image)
 show_images_one_by_one(top_100_people, './examples/output_cam0')
