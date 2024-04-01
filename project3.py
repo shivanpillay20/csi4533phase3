@@ -169,7 +169,7 @@ def compare(histogram_names):
         # Compare histograms and find the maximum intersection for each person
         for i, (filename, coordinates) in enumerate(histogram_coordinates):
            
-            image_cam= cv2.imread('./examples/output_cam0/'+filename+'.png')
+            image_cam= cv2.imread('./images/images/cam0/'+filename[0:19]+'.png')
 
          
 
@@ -198,28 +198,49 @@ def compare(histogram_names):
         print("Filename:", person[1], "Coordinates:", person[3])
     return top_100_people
     
-def show_images_one_by_one(top_people, folder_path):
-    window_name = "Image Viewer"
-    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-    
-    for person in top_people:
+def save_images(top_people, folder_path, person_index):
+    # Create a directory to save the images for the person
+    save_dir = os.path.join(folder_path, f'person_{person_index}_images')
+    os.makedirs(save_dir, exist_ok=True)
+
+    for i, person in enumerate(top_people):
         filename, coordinates = person[1],  person[3]
-        image_path = os.path.join(folder_path, filename + '.png')
+        image_path = os.path.join(folder_path, filename[0:19] + '.png')
         image = cv2.imread(image_path)
 
         if image is not None:
             x, y, w, h = coordinates
+            # Draw bounding box
             cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
-            cv2.imshow(window_name, image)
-            cv2.waitKey(0)
+            # Save the image with bounding box
+            save_path = os.path.join(save_dir, f'{i+1}_{filename[0:19]}.png')
+            cv2.imwrite(save_path, image)
+            print(f"Saved image: {save_path}")
         else:
             print(f"Failed to load image: {filename}")
 
-    cv2.destroyAllWindows()
+def save_top_images_for_person(histogram_names, folder_path, person_index):
+    top_100_people = compare(histogram_names)
+    save_images(top_100_people, folder_path, person_index)
+
+# Example usage
+#save_top_images_for_person(histogram_names_first_image, './examples/output_cam0', 1)
+#save_top_images_for_person(histogram_names_second_image, './examples/output_cam0', 2)
+#save_top_images_for_person(histogram_names_third_image, './examples/output_cam0', 3)
+#save_top_images_for_person(histogram_names_fouth_image, './images/images/cam0', 4)
+save_top_images_for_person(histogram_names_fifth_image, './images/images/cam0', 5)
 
 # Run comparison
 
+# top_100_people = compare(histogram_names_first_image)
+# show_images_one_by_one(top_100_people, './examples/output_cam0')
+# top_100_people = compare(histogram_names_second_image)
+# show_images_one_by_one(top_100_people, './examples/output_cam0')
+# top_100_people = compare(histogram_names_third_image)
+# show_images_one_by_one(top_100_people, './examples/output_cam0')
+# top_100_people = compare(histogram_names_fouth_image)
+# show_images_one_by_one(top_100_people, './examples/output_cam0')
 
-top_100_people = compare(histogram_names_fouth_image)
-show_images_one_by_one(top_100_people, './examples/output_cam0')
+#top_100_people = compare(histogram_names_fifth_image)
+#show_images_one_by_one(top_100_people, './examples/output_cam0')
