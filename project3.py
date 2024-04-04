@@ -2,14 +2,12 @@ import cv2
 import numpy as np
 import os
 #for cam0
-#directory = './examples/output_cam0'
-directory = './examples/output_cam1'
+directory = './examples/output_cam0'
+#for cam1
+#directory = './examples/output_cam1'
 
 def histogram(x, image):
-    # Check if width or height is too small
-    if x[2] <= 0 or x[3] <= 0:
-        return None
-
+  
     roi = image[x[1]:x[1]+x[3], x[0]:x[0]+x[2]]
     if roi.size == 0:  # Check if ROI is empty
         return None
@@ -19,9 +17,7 @@ def histogram(x, image):
     return hist
 
 def histogramUpper(x, image):
-    # Check if width or height is too small
-    if x[2] <= 0 or x[3] <= 0:
-        return None
+  
 
     # Adjust the range for height and width
     roi = image[x[1]:x[1]+((x[3])//2), x[0]:x[0]+x[2]]
@@ -171,8 +167,9 @@ def compare(histogram_names):
         # Compare histograms and find the maximum intersection for each person
         for i, (filename, coordinates) in enumerate(histogram_coordinates):
             #for cam0
-            #image_cam= cv2.imread('./images/images/cam0/'+filename[0:19]+'.png')
-            image_cam= cv2.imread('./images/images/cam1/'+filename[0:19]+'.png')
+            image_cam= cv2.imread('./images/images/cam0/'+filename[0:19]+'.png')
+            #for cam1
+            #image_cam= cv2.imread('./images/images/cam1/'+filename[0:19]+'.png')
 
          
 
