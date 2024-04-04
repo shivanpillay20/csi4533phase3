@@ -201,9 +201,9 @@ def compare(histogram_names):
         print("Filename:", person[1], "Coordinates:", person[3])
     return top_100_people
     
-def save_images(top_people, folder_path, person_index):
+def save_images(top_people, folder_path, person_index, camera_name):
     # Create a directory to save the images for the person
-    save_dir = os.path.join(folder_path, f'person_{person_index}_images')
+    save_dir = os.path.join('./output_folder', camera_name, f'person_{person_index}_images')
     os.makedirs(save_dir, exist_ok=True)
 
     for i, person in enumerate(top_people):
@@ -223,22 +223,23 @@ def save_images(top_people, folder_path, person_index):
         else:
             print(f"Failed to load image: {filename}")
 
-def save_top_images_for_person(histogram_names, folder_path, person_index):
+def save_top_images_for_person(histogram_names, folder_path, person_index, camera_name):
     top_100_people = compare(histogram_names)
-    save_images(top_100_people, folder_path, person_index)
+    save_images(top_100_people, folder_path, person_index, camera_name)
 
 
-#saving results for cam0
-#save_top_images_for_person(histogram_names_first_image, './images/images/cam0', 1)
-#save_top_images_for_person(histogram_names_second_image, './images/images/cam0', 2)
-#save_top_images_for_person(histogram_names_third_image, './images/images/cam0', 3)
-#save_top_images_for_person(histogram_names_fouth_image, './images/images/cam0', 4)
-#save_top_images_for_person(histogram_names_fifth_image, './images/images/cam0', 5)
+# Save results for cam0
+save_top_images_for_person(histogram_names_first_image, './images/images/cam0', 1, 'cam0')
+# save_top_images_for_person(histogram_names_second_image, './images/images/cam0', 2, 'cam0')
+# save_top_images_for_person(histogram_names_third_image, './images/images/cam0', 3, 'cam0')
+# save_top_images_for_person(histogram_names_fouth_image, './images/images/cam0', 4, 'cam0')
+# save_top_images_for_person(histogram_names_fifth_image, './images/images/cam0', 5, 'cam0')
 
-#save_top_images_for_person(histogram_names_first_image, './images/images/cam1', 1)
-#save_top_images_for_person(histogram_names_second_image, './images/images/cam1', 2)
-save_top_images_for_person(histogram_names_third_image, './images/images/cam1', 3)
-#save_top_images_for_person(histogram_names_fouth_image, './images/images/cam1', 4)
-#save_top_images_for_person(histogram_names_fifth_image, './images/images/cam1', 5)
+# # Save results for cam1
+# save_top_images_for_person(histogram_names_first_image, './images/images/cam1', 1, 'cam1')
+# save_top_images_for_person(histogram_names_second_image, './images/images/cam1', 2, 'cam1')
+# save_top_images_for_person(histogram_names_third_image, './images/images/cam1', 3, 'cam1')
+# save_top_images_for_person(histogram_names_fouth_image, './images/images/cam1', 4, 'cam1')
+# save_top_images_for_person(histogram_names_fifth_image, './images/images/cam1', 5, 'cam1')
 
 
