@@ -41,11 +41,9 @@ if __name__ == "__main__":
     
 
     # Process images for camera 0
-    #process_images(source_path_dir_cam0, output_path_dir_cam0)
+    process_images(source_path_dir_cam0, output_path_dir_cam0)
 
     # Process images for camera 01
     #process_images(source_path_dir_cam1, output_path_dir_cam1)
 
     
-    # Process images for camera 01
-    process_images(source_path_dir_cam01, output_path_dir_cam01)
