@@ -1,8 +1,9 @@
 import cv2
 import numpy as np
 import os
-
-directory = './examples/output_cam0'
+#for cam0
+#directory = './examples/output_cam0'
+directory = './examples/output_cam1'
 
 def histogram(x, image):
     # Check if width or height is too small
@@ -41,12 +42,10 @@ def load_images_from_folder(folder):
     return images
 
 
-
 def process_and_box(image_path, min_width=10, min_height=50, max_width=185, max_height=330, aspect_ratio=1.0):
-    # Extract filename without extension
     try:
+        # Extract filename without extension
         filename = os.path.splitext(os.path.basename(image_path))[0]
-    
 
         # Read the image
         image = cv2.imread(image_path)
@@ -70,8 +69,8 @@ def process_and_box(image_path, min_width=10, min_height=50, max_width=185, max_
 
         # Morphological operations
         kernel = np.ones((3,3),np.uint8)
-        mask = cv2.erode(mask, kernel, iterations = 15)
-        mask = cv2.dilate(mask, kernel, iterations = 15)
+        mask = cv2.erode(mask, kernel, iterations=15)
+        mask = cv2.dilate(mask, kernel, iterations=15)
 
         # Find contours in the mask
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
@@ -86,7 +85,7 @@ def process_and_box(image_path, min_width=10, min_height=50, max_width=185, max_
             current_area = w * h
             # Check if the contour meets the criteria including max width and height
             if min_width <= w <= max_width and min_height <= h <= max_height and current_aspect_ratio > aspect_ratio:
-                histogram_coordinates.append((filename, [x, y, w, h]))
+                histogram_coordinates.append((filename.split("_mask")[0], [x, y, w, h]))
 
         # Print the coordinates of the bounding boxes
         for coord in histogram_coordinates:
@@ -96,11 +95,14 @@ def process_and_box(image_path, min_width=10, min_height=50, max_width=185, max_
         for coord in histogram_coordinates:
             x, y, w, h = coord[1]
             cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+       
+
         return histogram_coordinates
     except Exception as e:
         print(f"Error processing image '{image_path}': {str(e)}")
         return []
-        
+
 
     
 
@@ -168,8 +170,9 @@ def compare(histogram_names):
 
         # Compare histograms and find the maximum intersection for each person
         for i, (filename, coordinates) in enumerate(histogram_coordinates):
-           
-            image_cam= cv2.imread('./images/images/cam0/'+filename[0:19]+'.png')
+            #for cam0
+            #image_cam= cv2.imread('./images/images/cam0/'+filename[0:19]+'.png')
+            image_cam= cv2.imread('./images/images/cam1/'+filename[0:19]+'.png')
 
          
 
@@ -224,23 +227,18 @@ def save_top_images_for_person(histogram_names, folder_path, person_index):
     top_100_people = compare(histogram_names)
     save_images(top_100_people, folder_path, person_index)
 
-# Example usage
-#save_top_images_for_person(histogram_names_first_image, './examples/output_cam0', 1)
-#save_top_images_for_person(histogram_names_second_image, './examples/output_cam0', 2)
-#save_top_images_for_person(histogram_names_third_image, './examples/output_cam0', 3)
+
+#saving results for cam0
+#save_top_images_for_person(histogram_names_first_image, './images/images/cam0', 1)
+#save_top_images_for_person(histogram_names_second_image, './images/images/cam0', 2)
+#save_top_images_for_person(histogram_names_third_image, './images/images/cam0', 3)
 #save_top_images_for_person(histogram_names_fouth_image, './images/images/cam0', 4)
-save_top_images_for_person(histogram_names_fifth_image, './images/images/cam0', 5)
+#save_top_images_for_person(histogram_names_fifth_image, './images/images/cam0', 5)
 
-# Run comparison
+#save_top_images_for_person(histogram_names_first_image, './images/images/cam1', 1)
+#save_top_images_for_person(histogram_names_second_image, './images/images/cam1', 2)
+save_top_images_for_person(histogram_names_third_image, './images/images/cam1', 3)
+#save_top_images_for_person(histogram_names_fouth_image, './images/images/cam1', 4)
+#save_top_images_for_person(histogram_names_fifth_image, './images/images/cam1', 5)
 
-# top_100_people = compare(histogram_names_first_image)
-# show_images_one_by_one(top_100_people, './examples/output_cam0')
-# top_100_people = compare(histogram_names_second_image)
-# show_images_one_by_one(top_100_people, './examples/output_cam0')
-# top_100_people = compare(histogram_names_third_image)
-# show_images_one_by_one(top_100_people, './examples/output_cam0')
-# top_100_people = compare(histogram_names_fouth_image)
-# show_images_one_by_one(top_100_people, './examples/output_cam0')
 
-#top_100_people = compare(histogram_names_fifth_image)
-#show_images_one_by_one(top_100_people, './examples/output_cam0')
